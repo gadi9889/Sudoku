@@ -1,0 +1,13 @@
+.App {
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+input {
+    border-radius: 10px;
+    background-color: RGB(239, 192, 80);
+    border: none;
+    height:30px
+}
+

@@ -1,0 +1,27 @@
+#game-board {
+    display:grid;
+    grid-template-columns:repeat(3,12vw);
+    background-color:RGB(68, 184, 172);
+    width:34.5vw;
+    margin:3% auto;
+    padding:1vw;
+    border-radius: 10px;
+}
+
+#game-board div{
+    width: 11vw;
+    height: 11vw;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    appearance: none;
+}
+
+input[type=number] {
+    caret-color: transparent;
+    appearance:none;
+    width:3vw;
+    height:3vw;
+    margin:0.5%;
+    text-align:center
+}

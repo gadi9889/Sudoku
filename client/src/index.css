@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap');
+
+body {
+  font-family: 'Dongle', sans-serif;
+  background-color: RGB(239, 192, 80);
+  font-size: 25px;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-y: hidden;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+

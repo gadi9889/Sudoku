@@ -3,7 +3,7 @@ import './App.css';
 import Login from './components/login/Login';
 import {BrowserRouter as Router,useLocation,Routes,Route} from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion';
-import SignIn from './components/SignIn/SignIn';
+import SignUp from './components/SignUp/SignUp';
 import GameBoard from './components/game/GameBoard';
 
 function App() {
@@ -11,15 +11,14 @@ function App() {
 
   return (
     <div className="App">
-      {/* <AnimatePresence exitBeforeEnter>
+      <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.key}>
-          <Route exact path='/Home' element={<Login/>}/>
-          <Route exact path='/SignUp' element={<Login/>}/>
+          <Route exact path='/' element={<Login/>}/>
+          <Route exact path='/SignUp' element={<SignUp/>}/>
           <Route exact path='/LogIn' element={<Login/>}/>
-          <Route exact path='/Game' element={<Login/>}/>
+          <Route exact path='/Game' element={<GameBoard/>}/>
         </Routes>
-      </AnimatePresence> */}
-      <GameBoard />
+      </AnimatePresence>
     </div>
   );
 }

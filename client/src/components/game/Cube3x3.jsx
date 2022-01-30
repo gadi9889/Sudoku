@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function Cube3x3({ id }) {
-    console.log(id)
     const cubeMaker = (id) => {
         let cellList = []
         let rowStart = startingRow(id)
@@ -23,9 +22,7 @@ export default function Cube3x3({ id }) {
 
     const cellSetter = (colStart,rowStart,cells,cellList) => {
         cellList[cells-1] = <input type="number" name={'cell-'+(cells+colStart+rowStart)} id={(colStart+cells+rowStart)} />
-        console.log(cells)
         if (cells == 9) {
-            console.log(cells)
             return cellList
         }
         if (cells%3 == 0) {

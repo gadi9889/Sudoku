@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion'
 import './Login.css'
+import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 
 const labelVariants = {
   start: {
@@ -98,9 +99,41 @@ const startAnimationVariants = {
 }
 
 export default function Login({show, setShow}) {
-  const [wasUsernameClicked, setWasUsernameClicked] = useState(false);
-  const [wasPasswordClicked, setWasPasswordClicked] = useState(false);
-  const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [wasUsernameClicked, setWasUsernameClicked] = useState(false)
+  const [wasPasswordClicked, setWasPasswordClicked] = useState(false)
+  const [wasSubmitted, setWasSubmitted] = useState(false)
+  const [username, setUsername] = useState()
+  const [password, setPassword] = useState();
+
+  let navigate = useNavigate()
+  
+  const getUsername = (e) => {setUsername(e.target.value)}
+  const getPassword = (e) => {setPassword(e.target.value)}
+
+  const clickHandle = async () => {
+    setWasSubmitted(true)
+    await fetch('http://localhost:3001/api/users/login', {
+      headers:{
+        'Content-Type':'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        username:username,
+        password:password
+      })
+    }).then(res => res.json())
+    .then(data => {
+      if (data.message == 'welcome') {
+        setTimeout(() => {
+          navigate('/game')
+        }, 2000)
+      } else {
+      setWasSubmitted(false)
+      }
+    })
+    .catch(err => console.log(err))
+  }
+  
 
   return (
     <motion.div
@@ -130,6 +163,7 @@ export default function Login({show, setShow}) {
           <input type="text" name="username" id="username" 
             onFocus={() => setWasUsernameClicked(true)} 
             onBlur={() => setWasUsernameClicked(false)}
+            onChange={getUsername}
             autoComplete='off'
           />
           <br />
@@ -150,6 +184,7 @@ export default function Login({show, setShow}) {
           <input type="text" name="password" id="password" 
             onFocus={() => setWasPasswordClicked(true)} 
             onBlur={() => setWasPasswordClicked(false)}
+            onChange={getPassword}
             autoComplete='off'
           />
       </motion.div>
@@ -160,7 +195,7 @@ export default function Login({show, setShow}) {
         whileHover='hover'
         whileTap='tap'
         animate={wasSubmitted ? 'end':'start'}
-        onClick={() =>{ setWasSubmitted(true);console.log(wasSubmitted)}}
+        onClick={() => clickHandle()}
       />
     </motion.div>
   </motion.div>

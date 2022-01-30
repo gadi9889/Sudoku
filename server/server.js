@@ -1,31 +1,31 @@
+require('dotenv').config()
+
 const express = require("express")
 const app = express()
-const cors = require("cors")
+const cors = require('cors')
+
 const mongoose = require('mongoose')
 
-require("dotenv").config();
-
-const PORT = 4000;
-
-mongoose.connect('mongodb://localhost:27017/Sudoku_db', {useNewUrlParser:true});
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser:true});
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console,"connection error: "));
+db.on('error', (err) => console.error(err));
 db.once('open', ()=>console.log("connected"));
 
-app.use(cors())
 app.use(express.json())
-
-app.use(require("./routes/record"))
+app.use(
+  cors({
+    origin:"http://localhost:3000"
+}))
 
 const usersRouter = require('./routes/users')
-
 app.use('/api/users', usersRouter)
 
-app.get('/', () => {
+app.get('/', (req,res) => {
     console.log("server is live")
+    res.send()
 })
  
-app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`)
+app.listen((process.env.PORT), () => {
+  console.log(`Server is running on port: ${process.env.PORT}`)
 })

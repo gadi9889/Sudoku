@@ -1,46 +1,55 @@
 const router = require('express').Router()
 
-let User = require('../models/user.modal')
+let User = require('../models/user.js')
+const bcrypt = require('bcryptjs')
 
-router.route('/get').get((req,res) => {
-    User.find()
-        .then(users => res.json(users))
-        .catch(err =>  res.status(400).json('Error:- '+err))
+router.get('/', async (req,res) => {
+    try {
+        const users = await User.find()
+        res.json(users)
+    } catch (err) {
+        res.status(500).json({message:err.message})
+    }
 })
 
-router.route('/get/:id').get((req,res) => {
-    User.findById(req.params.id)
-        .then(user => res.json(user))
-        .catch(err =>  res.status(400).json('Error:- '+err))
-})
-
-router.route('/post').post((req,res) => {
-    const username = req.body.username
-    const password = req.body.password
-    const newUser = new User({username,password})
-
-    newUser.save()
-        .then(() => res.json('User added'))
-        .catch(err => res.status(400).json('Error:- '+err))
-})
-
-router.route('/delete/:id').delete((req,res) => {
-    User.findByIdAndDelete(req.params.id)
-        .then(() => res.json('User deleted'))
-        .catch(err => res.status(400).json('Error:- '+err))
-})
-
-router.route('/update/:id').update((req,res) => {
-    User.findByIdAndUpdate(req.params.id)
-        .then((user) => {
-            user.username = req.body.username
-            user.password = req.body.password
-
-            user.save()
-                .then(() => res.json('User updated'))
-                .cath(err => res.status(400).json('Error:- '+err))
+router.post('/signup', async (req,res) => {
+    console.log('signup attempt ' + new Date().toLocaleString('en'))
+    try {
+        const encPassword = await bcrypt.hash(req.body.password,5)
+        const newUser = new User({
+            firstname:req.body.firstname,
+            lastname:req.body.lastname,
+            email:req.body.email,
+            username:req.body.username,
+            password:encPassword
         })
-        .catch(err => res.status(400).json('Error:- '+err))
+        await newUser.save()
+        res.status(201).json({message:"user added"})
+    } catch (err) {
+        res.status(400).json({message:err.message})
+    }
+})
+
+router.post('/login', (req,res) => {
+    console.log('login attempt ' + new Date().toLocaleString('en'))
+    User.findOne({username:req.body.username})
+        .then(user => {
+            if (user) {
+                bcrypt.compare(req.body.password, user.password, function(err, result) {
+                    if (err) {
+                        return res.status(500).json({message:err})
+                    }
+                    if (result) {
+                        res.json({message:"welcome"})
+                    }
+                    else {
+                        res.json({message:"wrong password"})
+                    }
+                })
+            } else {
+                res.json({message:"user not found"})
+            }
+        })
 })
 
 module.exports = router

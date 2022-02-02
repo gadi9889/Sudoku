@@ -61,6 +61,23 @@ const submitVariants = {
     }
 }
 
+const signupMainDiv = {
+    start: {
+        y:'100vh',
+        transition: {
+            duration:1.2,
+    }
+    },
+    end: {
+        y:0,
+        transition: {
+            duration:1,
+            type:'spring',
+            damping:12,
+        }
+    }
+}
+
 export default function SignIn() {
     const [scrollUpP1, setScrollUpP1] = useState(false);
     const [scrollUpP2, setScrollUpP2] = useState(false);
@@ -74,7 +91,8 @@ export default function SignIn() {
     const getEmail = (e) => {userInput[3] = e.target.value}
     const getPassword = (e) => {userInput[4] = e.target.value}
 
-    const clickHandle = async () => {
+    const clickHandle = async (e) => {
+        e.stopPropagation()
         setUserInput(userInput)
         setWasSubmitted(true)
         await fetch('http://localhost:3001/api/users/signup', {
@@ -118,10 +136,14 @@ export default function SignIn() {
     }
 
   return (
-      <motion.div>
+      <motion.div onClick={(e) => e.stopPropagation()}
+        variants={signupMainDiv}
+        initial='start'
+        animate='end'
+        exit='start'
+      >
         <motion.div id="signin-container"
             variants={endAnimationVariants}
-            initial='start'
             animate={wasSubmitted ? 'end':'start'}
         >
             <p className="arrow up" onClick={() => {unlockScrollUp()}}/>
@@ -129,7 +151,6 @@ export default function SignIn() {
             <button className="arrow down" onClick={() => {unlockScrollDown()}}/>
             <motion.div style={{marginBottom:'80px'}}
                 variants={firstPhaseVariants}
-                initial='start'
                 animate={scrollUpP1 ? 'end':'start'}
             >
                 <h3 style={{display:'inline-block'}}>lets start from your name</h3>
@@ -138,7 +159,6 @@ export default function SignIn() {
             </motion.div>
             <motion.div style={{marginBottom:'70px'}}
                 variants={scrollUpP2 ? secondPhaseVariants:firstPhaseVariants}
-                initial='start'
                 animate={scrollUpP1 ? 'end':'start'}
             >
                 <h3>so what will your username be?</h3>
@@ -146,7 +166,6 @@ export default function SignIn() {
             </motion.div>
             <motion.div
                 variants={scrollUpP2 ? secondPhaseVariants:null}
-                initial='start'
                 animate='end'
             >
                 <h3>almost there!</h3>
@@ -155,7 +174,6 @@ export default function SignIn() {
                 <br />
                 <motion.input type="submit" value="Sign In" style={{marginLeft:'35%'}}
                     variants={submitVariants}
-                    initial='start'
                     animate={wasSubmitted ? 'end':'start'}
                     onClick={() =>clickHandle()}
                 />

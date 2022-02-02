@@ -1,17 +1,4 @@
-.App {
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
-}
-
-input {
-    border-radius: 10px;
-    background-color: RGB(239, 192, 80);
-    border: none;
-    height:30px
-}
-
-.component-links {
+.box-links {
     border-radius: 10px;
     background-color: RGB(239, 192, 80);
     border: none;
@@ -23,7 +10,7 @@ input {
     font-size: x-large;
 }
 
-#component-options-box {
+#box-options-box {
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -37,7 +24,7 @@ input {
     overflow: hidden; 
 }
 
-#component-main-div {
+#box-main-div {
     align-items: center;
     flex-direction: column;
     display: flex;

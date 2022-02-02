@@ -1,6 +1,8 @@
 import React from 'react';
+import Cell from './Cell';
+import { motion } from 'framer-motion';
 
-export default function Cube3x3({ id }) {
+export default function Cube3x3({ id,displayBoard }) {
     const cubeMaker = (id) => {
         let cellList = []
         let rowStart = startingRow(id)
@@ -21,7 +23,11 @@ export default function Cube3x3({ id }) {
     }
 
     const cellSetter = (colStart,rowStart,cells,cellList) => {
-        cellList[cells-1] = <input type="number" name={'cell-'+(cells+colStart+rowStart)} id={(colStart+cells+rowStart)} />
+        if (displayBoard[cells+colStart+rowStart-1] == 0) {
+            cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} isReadOnly={false}/>
+        } else {
+            cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} value={displayBoard} isReadOnly={true}/>
+        }
         if (cells == 9) {
             return cellList
         }
@@ -32,11 +38,35 @@ export default function Cube3x3({ id }) {
     }
 
     let cellList = cubeMaker(id)
+
+    function initialPosY() {
+        if (id < 3) {
+            return -100
+        } else if(id > 5) {
+            return 100
+        }
+    }
+    function initialPosX() {
+        if (id % 2 == 0) {
+            return -100
+        }
+        else {
+            return 100
+        }
+    }
     return (
-        <div id={id}>
+        <>
+        <motion.div id={id} 
+            whileHover={{scale:1.05}}
+            initial={{y:initialPosY(),x:initialPosX(),opacity:0}}
+            animate={{y:0,x:0,opacity:1}}
+            transition={{dealy:0.5,duration:1.5}}
+            exit={{opacity:0}}
+        >
             {cellList.map((cell) => {
                 return cell
             })}
-        </div>
+        </motion.div>
+        </>
     )
 }

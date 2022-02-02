@@ -76,10 +76,10 @@ const boxVariants = {
     y:0
   },
   end: {
-    y:400,
+    y:'90vh',
     transition: {
       delay:0.5,
-      duration:0.5
+      duration:1
     }
   }
 }
@@ -125,7 +125,7 @@ export default function Login({show, setShow}) {
     .then(data => {
       if (data.message == 'welcome') {
         setTimeout(() => {
-          navigate('/game')
+          navigate('/menu')
         }, 2000)
       } else {
       setWasSubmitted(false)
@@ -136,25 +136,23 @@ export default function Login({show, setShow}) {
   
 
   return (
-    <motion.div
+    <motion.div onClick={(e) => e.stopPropagation()}
       variants={startAnimationVariants}
       initial='start'
       animate='end'
     >
       <motion.div id="login-container"
         variants={boxVariants}
-        initial='start'
         animate={wasSubmitted ? 'end':'start'}
+        exit='end'
       >
         <h1>Log In</h1>
         <motion.div id="username-container"
           variants={usernameVariants}
-          initial='start'
           animate={wasSubmitted ? 'end':'start'}
         >
           <motion.p
             variants={labelVariants}
-            initial='start'
             animate={wasUsernameClicked ? 'end':'start'}
           >
             username

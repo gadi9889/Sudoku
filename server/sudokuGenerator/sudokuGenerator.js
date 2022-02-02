@@ -93,9 +93,14 @@ function deleteRow(row, col) {
         sudokuMatrix[row][i] = 0;
     }
 }
-  
 
-export function displayGrid(emptySlots) {
-    generateBoard()
-    return sudokuMatrix
+generateBoard()
+
+module.exports.displayGrid = function (difficulty,sudokuArray,posArray) {
+    let tmpSudokuArray = [...sudokuArray]
+    for (let i = 0; i < 36; i = i+parseInt(difficulty)) {
+        tmpSudokuArray[posArray[i]] = 0
+    }
+    return tmpSudokuArray
 }
+module.exports.fullGrid = sudokuMatrix.flat()

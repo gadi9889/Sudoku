@@ -1,7 +1,9 @@
 const router = require('express').Router()
 
-let User = require('../models/user.js')
 const bcrypt = require('bcryptjs')
+let User = require('../models/user.js')
+let SudokuBoard = require('../models/sudokuBoard')
+let SudokuGenerator = require('../sudokuGenerator/sudokuGenerator')
 
 router.get('/', async (req,res) => {
     try {
@@ -24,6 +26,11 @@ router.post('/signup', async (req,res) => {
             password:encPassword
         })
         await newUser.save()
+        const newBoard = new SudokuBoard({
+            username:req.body.username,
+            fullBoard:SudokuGenerator.fullGrid
+        })
+        await newBoard.save()
         res.status(201).json({message:"user added"})
     } catch (err) {
         res.status(400).json({message:err.message})

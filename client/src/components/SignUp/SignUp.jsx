@@ -175,7 +175,7 @@ export default function SignIn() {
                 <motion.input type="submit" value="Sign In" style={{marginLeft:'35%'}}
                     variants={submitVariants}
                     animate={wasSubmitted ? 'end':'start'}
-                    onClick={() =>clickHandle()}
+                    onClick={(e) =>clickHandle(e)}
                 />
             </motion.div>
             

@@ -3,21 +3,25 @@ GET http://localhost:4000/
 
 ###
 
-POST http://localhost:4000/api/users/signup
+POST http://localhost:3001/api/users/signup
 Content-Type: application/json
 
 {
-    "firstname":"fntwo",
-    "lastname":"lntwo",
-    "email":"two@email.com",
-    "username":"rami",
+    "firstname":"one",
+    "lastname":"one",
+    "email":"one@one.com",
+    "username":"one",
     "password":"123456"
 }
 
 
 ###
-GET http://localhost:4000/api/users/
+GET http://localhost:3001/api/users/
 
+###
+Get http://localhost:3001/api/games/?username=one
+###
+PATCH http://localhost:3001/api/games/?username=one&difficulty=2
 ###
 POST http://localhost:3001/api/users/login
 Content-Type: application/json
@@ -25,4 +29,14 @@ Content-Type: application/json
 {
     "username":"rami",
     "password":"123456"
+}
+
+###
+POST http://localhost:3001/api/games/new
+Content-Type: application/json
+
+{
+    "username":"one",
+    "fullBoard":"[3,2,1]",
+    "displayBoard":"[3,2,1]"
 }

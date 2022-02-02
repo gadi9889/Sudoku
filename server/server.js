@@ -19,11 +19,13 @@ app.use(
 }))
 
 const usersRouter = require('./routes/users')
+const gamesRouter = require('./routes/games')
 app.use('/api/users', usersRouter)
+app.use('/api/games', gamesRouter)
 
 app.get('/', (req,res) => {
-    console.log("server is live")
-    res.send()
+  console.log("server is live")
+  res.send()
 })
  
 app.listen((process.env.PORT), () => {

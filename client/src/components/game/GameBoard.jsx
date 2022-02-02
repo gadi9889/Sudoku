@@ -1,27 +1,17 @@
 import Cube3x3 from './Cube3x3';
 import './Game.css'
-import { displayGrid } from '../../sudokuGenerator/sudokuGenerator';
 import { motion,useAnimation } from 'framer-motion';
-import { useState } from 'react';
+import {BrowserRouter as Router,useNavigate} from 'react-router-dom'
+import React,{ useState } from 'react';
 
-const fullBoard = displayGrid(21)
-let displayBoard = [...fullBoard]
-for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 2; j++) {
-        displayBoard[i][Math.floor(Math.random()*9)] = 0
-    }
-}
-displayBoard = displayBoard.flat()
-console.log(displayBoard)
-
-export default function GameBoard() {
+export default function GameBoard({displayBoard,blankedPositions,fullBoard}) {
     const [board, setboard] = useState(displayBoard);
+    let navigate = useNavigate()    
     
     const cubeLayout = () => {
         let cubeList = []
         for (let i = 0; i < 9; i++) {
-
-            cubeList[i] = <Cube3x3 id={i} displayBoard={displayBoard}/>
+            cubeList[i] = <Cube3x3 id={i} displayBoard={board} setDisplayBoard={setboard} blankedPositions={blankedPositions} />
         }
         return cubeList
     }
@@ -30,8 +20,19 @@ export default function GameBoard() {
     const endAnimation = useAnimation()
 
     async function endSequence() {
-        await endAnimation.start({ scale: 1.3 })
+        await endAnimation.start({ scale: 1.3,opacity:0.5 })
         await endAnimation.start({ scale:0,opacity:0 })
+    }
+
+    const boardReset = (e) => {
+        e.stopPropagation()
+        setboard(displayBoard)
+        navigate('/game')
+        console.log(board)
+    }
+
+    const boardNew = (e) => {
+        e.stopPropagation()
     }
 
     return (
@@ -44,21 +45,21 @@ export default function GameBoard() {
                 exit={{x:-100}}
                 transition={{delay:0.4}}
             >
-                <motion.button className='game-options' onClick={(e) => e.stopPropagation()}
+                <motion.button className='game-options' onClick={(e) => boardReset(e)}
                     whileHover={{scale:1.2,x:10}}
                     whileTap={{rotate:180}}
                     exit={{opacity:0}}
                 >
                     Reset
                 </motion.button>
-                <motion.button className='game-options' onClick={(e) => e.stopPropagation()}
+                <motion.button className='game-options' onClick={(e) => boardNew(e)}
                     whileHover={{scale:1.2,x:10}}
                     whileTap={{scaleY:1.1,scaleX:0.9}}
                     exit={{opacity:0}}
                 >
                     New
                 </motion.button>
-                <motion.button className='game-options' onClick={(e) => e.stopPropagation()}
+                <motion.button className='game-options' onClick={(e) => {e.stopPropagation();navigate('/difficultypicker')}}
                     whileHover={{scale:1.2,x:10}}
                     whileTap={{x:-5,scaleY:0.8}}
                     exit={{opacity:0}}

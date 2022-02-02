@@ -87,7 +87,7 @@ export default function Menu() {
             <motion.button className='component-links'
               variants={loginVariants}
             >
-              <Link to='/game' style={{textDecoration:'none',color:'black'}}>Game</Link>
+              <Link to='/difficultypicker' style={{textDecoration:'none',color:'black'}}>Game</Link>
             </motion.button>
           </div>
         </motion.div>

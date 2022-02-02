@@ -2,7 +2,7 @@ import React from 'react';
 import Cell from './Cell';
 import { motion } from 'framer-motion';
 
-export default function Cube3x3({ id,displayBoard }) {
+export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositions }) {
     const cubeMaker = (id) => {
         let cellList = []
         let rowStart = startingRow(id)
@@ -22,11 +22,20 @@ export default function Cube3x3({ id,displayBoard }) {
         return (id%3)*3
     }
 
+    const isBlanked = (cell,blankedPositions) => {
+        for (let i = 0; i < blankedPositions.length; i++) {
+            if (cell == blankedPositions[i]) {
+                return true
+            }
+        }
+        return false
+    }
+
     const cellSetter = (colStart,rowStart,cells,cellList) => {
-        if (displayBoard[cells+colStart+rowStart-1] == 0) {
-            cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} isReadOnly={false}/>
+        if (isBlanked((cells+colStart+rowStart-1),blankedPositions)) {
+            cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} values={displayBoard} initialValue={''} setValues={setDisplayBoard} isReadOnly={false}/>
         } else {
-            cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} value={displayBoard} isReadOnly={true}/>
+            cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} values={displayBoard} isReadOnly={true}/>
         }
         if (cells == 9) {
             return cellList

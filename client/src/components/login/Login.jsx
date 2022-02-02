@@ -98,7 +98,7 @@ const startAnimationVariants = {
   }
 }
 
-export default function Login({show, setShow}) {
+export default function Login({setCurrentUsername}) {
   const [wasUsernameClicked, setWasUsernameClicked] = useState(false)
   const [wasPasswordClicked, setWasPasswordClicked] = useState(false)
   const [wasSubmitted, setWasSubmitted] = useState(false)
@@ -125,6 +125,7 @@ export default function Login({show, setShow}) {
     .then(data => {
       if (data.message == 'welcome') {
         setTimeout(() => {
+          setCurrentUsername(username)
           navigate('/menu')
         }, 2000)
       } else {

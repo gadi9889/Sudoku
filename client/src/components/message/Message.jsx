@@ -27,7 +27,7 @@ const createProductContainerVariants = {
     }
 }
 
-export default function Message({showMessage,message, onClick}) {
+export default function Message({showMessage,message, onClick,title}) {
   return (
     <AnimatePresence>
         {showMessage && (
@@ -38,7 +38,7 @@ export default function Message({showMessage,message, onClick}) {
                 animate='visible'
                 exit='exit'
             >
-                <h2 style={{color:'purple',marginTop:0}}>Error!</h2>
+                <h2 style={{color:'purple',marginTop:0}}>{(title == null)?'Error!':title}</h2>
                 <h4>{message}</h4>
             </motion.div>
         </Background>

@@ -38,7 +38,7 @@ export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositio
                                     rowStart={rowStart} 
                                     cell={cells} 
                                     values={displayBoard} 
-                                    initialValue={''} 
+                                    initialValue={displayBoard[cells+colStart+rowStart-1]} 
                                     setValues={setDisplayBoard} 
                                     isReadOnly={false} 
                                     blankedPositions={blankedPositions} 

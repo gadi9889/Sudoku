@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import {BrowserRouter as Router,Link} from 'react-router-dom'
+import {BrowserRouter as Router,Link, useLocation} from 'react-router-dom'
 
 const mainDivVariants = {
     start: {
@@ -65,6 +65,11 @@ const loginVariants = {
 }
 
 export default function Menu() {
+  let location = useLocation()
+  useEffect(() => { 
+    console.log(location)
+  }, []);
+  
     return (
         <motion.div id='component-main-div' onClick={(e) => e.stopPropagation()}
           variants={mainDivVariants}
@@ -87,7 +92,7 @@ export default function Menu() {
             <motion.button className='component-links'
               variants={loginVariants}
             >
-              <Link to='/difficultypicker' style={{textDecoration:'none',color:'black'}}>Game</Link>
+              <Link to={'/difficultypicker'} state={{new: false}} style={{textDecoration:'none',color:'black'}}>Game</Link>
             </motion.button>
           </div>
         </motion.div>

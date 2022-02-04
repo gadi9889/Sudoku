@@ -55,14 +55,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        validate:{
-            validator: function(v) {
-                return /^[a-zA-Z0-9]+$/;
-            },
-            message: props => `${props.value} is not a valid password`
-        },
-        required: [true,"password required"],
-        minlength:[5,"lastname minimum 5 letters"]
+        required: [true,"password required"]
     }
 })
 

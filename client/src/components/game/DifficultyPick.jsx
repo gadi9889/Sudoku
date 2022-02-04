@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const mainDivVariants = {
   start: {
@@ -64,10 +64,23 @@ const loginVariants = {
   }
 }
 
-export default function DifficultyPick({setSudokuBoards,username}) {
+export default function DifficultyPick({username,setSudokuBoards}) {
     let navigate = useNavigate()
+    let location = useLocation()
+
     const clickHandle = (difficulty) => {
-      fetch(`http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}`, {
+      console.log(location)
+      if (location.state.new == false) {
+        let address = `http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}`
+        bringboards(address,'/game')
+      } else {
+        let address = `http://localhost:3001/api/games/new/?username=${username}&difficulty=${difficulty}`
+        bringboards(address,-1)
+      }
+    }
+
+    const bringboards = (address,to) => {
+      fetch(address, {
           headers:{
             'Content-Type':'application/json'
           },
@@ -75,7 +88,7 @@ export default function DifficultyPick({setSudokuBoards,username}) {
         }).then(res => res.json())
         .then(data => {
           setSudokuBoards(data)
-          navigate('/game')
+          navigate(to)
         })
         .catch(err => console.log(err))
     }

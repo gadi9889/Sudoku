@@ -16,8 +16,11 @@ router.get('/', async (req,res) => {
 
 router.post('/signup', async (req,res) => {
     console.log('signup attempt ' + new Date().toLocaleString('en'))
+    if (req.body.password == null || req.body.password.trim().length < 5) {
+        return res.status(404).json({message:'minimum password length is 5'})
+    }
     try {
-        const encPassword = await bcrypt.hash(req.body.password,5)
+        const encPassword = await bcrypt.hash(req.body.password.trim(),5)
         const newUser = new User({
             firstname:req.body.firstname,
             lastname:req.body.lastname,
@@ -28,7 +31,7 @@ router.post('/signup', async (req,res) => {
         await newUser.save()
         const newBoard = new SudokuBoard({
             username:req.body.username,
-            fullBoard:SudokuGenerator.fullGrid
+            fullBoard:SudokuGenerator.fullBoard()
         })
         await newBoard.save()
         res.status(201).json({message:"user added"})

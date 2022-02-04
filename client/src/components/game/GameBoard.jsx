@@ -3,6 +3,7 @@ import './Game.css'
 import { motion,useAnimation } from 'framer-motion';
 import {BrowserRouter as Router,useNavigate} from 'react-router-dom'
 import React,{ useState } from 'react';
+import Message from '../message/Message';
 
 const checkVariants = {
     start: {
@@ -33,23 +34,33 @@ const checkVariants = {
     }
 }
 
-export default function GameBoard({data}) {
+export default function GameBoard({data,username}) {
     const [board, setboard] = useState(data.displayBoard)
     const [isSolved, setIsSolved] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
+    const [messageText, setMessageText] = useState(['Congratulations you are officially AMAZING']);
+    const [showMessage, setShowMessage] = useState(false);
     let navigate = useNavigate()
     
     const updateIsFilled = (bool) => {
         setIsFilled(bool)
     }
+
+    const updateBoard = (board) => {
+        setboard(board)
+    }
     
     const checkHandle = (inputBoard,answerBoard,blankedPositions) => {
         for (let i = 0; i < blankedPositions.length; i++) {
             if (inputBoard[blankedPositions[i]] != answerBoard[blankedPositions[i]]) {
-                return false
+                console.log(inputBoard[blankedPositions[i]])
+                setMessageText([`check that ${inputBoard[blankedPositions[i]]} in line ${Math.floor(blankedPositions[i]/9)+1}`])
+                return setShowMessage(true)
             }
         }
-        return setIsSolved(!isSolved)
+        setShowMessage(true)
+        setMessageText(['Congratulations you are officially AMAZING','WOW'])
+        return setIsSolved(true)
     }
 
     const cubeLayout = () => {
@@ -74,6 +85,13 @@ export default function GameBoard({data}) {
         await endAnimation.start({ scale: 1.3,opacity:0.5 })
         await endAnimation.start({ scale:0,opacity:0 })
     }
+
+    const messageShow = () => {
+        setShowMessage(false)
+        if (isSolved) {
+            setIsFilled(false)
+        }
+    }
     
     const boardReset = (e) => {
         e.stopPropagation()
@@ -84,9 +102,29 @@ export default function GameBoard({data}) {
 
     const boardNew = (e) => {
         e.stopPropagation()
+        navigate('/difficultypicker',{state:{new:true}})
+    }
+
+    const backHandle = (e,board) => {
+        e.stopPropagation()
+        fetch(`http://localhost:3001/api/games/save/?username=${username}`, {
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                displayBoard:board
+            }),
+            method: 'PATCH'
+          }).then(res => res.json())
+          .then(data => {
+            navigate(-2,{replace:true})
+          })
+          .catch(err => console.log(err))
     }
 
     return (
+        <>
+        <Message showMessage={showMessage} onClick={messageShow} message={messageText[0]} title={messageText[1]}/>
         <motion.div style={{display:'flex'}} onClick={(e) => e.stopPropagation()}
             initial={{scaleX:0.5}}
             animate={{scaleX:1}}
@@ -110,7 +148,7 @@ export default function GameBoard({data}) {
                 >
                     New
                 </motion.button>
-                <motion.button className='game-options' onClick={(e) => {e.stopPropagation();navigate(-1)}}
+                <motion.button className='game-options' onClick={(e) => backHandle(e,board)}
                     whileHover={{scale:1.2,x:10}}
                     whileTap={{x:-5,scaleY:0.8}}
                     exit={{opacity:0}}
@@ -139,5 +177,6 @@ export default function GameBoard({data}) {
                 </motion.button>
             </motion.div>
         </motion.div>
+        </>
     )
 }

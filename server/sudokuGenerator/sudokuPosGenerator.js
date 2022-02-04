@@ -12,6 +12,6 @@ let blankedPositions = () => {
     return array
 }
 
-let blankedPositionsArray = blankedPositions()
-
-module.exports.blankedPositionsArray = blankedPositionsArray
+module.exports.blankedPositionsArray = function() {
+    return blankedPositions()
+}

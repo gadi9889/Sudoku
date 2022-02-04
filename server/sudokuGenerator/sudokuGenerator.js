@@ -15,30 +15,42 @@ const rowColLength = 9
 const maxRandomAttempt = 40
 
 function generateBoard() {
+    sudokuMatrix = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0], //1-9
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
     let counterToBoardDelete = 0 
     for (let row = 0; row < rowColLength; row++) {
         for (let col = 0; col < rowColLength; col++) {
-        if (!findNumber(row, col, Math.floor(Math.random() * rowColLength) + 1)) {
-            col = -1;
-            counterToBoardDelete++;
-            if (counterToBoardDelete > maxRandomAttempt) {
-            counterToBoardDelete = 0;
-            sudokuMatrix = [
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ];
-            row = 0;
+            if (!findNumber(row, col, Math.floor(Math.random() * rowColLength) + 1)) {
+                col = -1;
+                counterToBoardDelete++;
+                if (counterToBoardDelete > maxRandomAttempt) {
+                counterToBoardDelete = 0;
+                sudokuMatrix = [
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                ];
+                row = 0;
+                }
             }
         }
-        }
     }
+    return sudokuMatrix
 }
 
 function findNumber(row, col, ranVal) {
@@ -94,13 +106,13 @@ function deleteRow(row, col) {
     }
 }
 
-generateBoard()
-
 module.exports.displayGrid = function (difficulty,sudokuArray,posArray) {
     let tmpSudokuArray = [...sudokuArray]
     for (let i = 0; i < 36; i = i+parseInt(difficulty)) {
-        tmpSudokuArray[posArray[i]] = 0
+        tmpSudokuArray[posArray[i]] = ''
     }
     return tmpSudokuArray
 }
-module.exports.fullGrid = sudokuMatrix.flat()
+module.exports.fullBoard = function () {
+    return generateBoard().flat()
+}

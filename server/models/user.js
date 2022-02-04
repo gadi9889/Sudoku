@@ -13,7 +13,7 @@ const userSchema = new Schema({
         },
         required: [true,"firstname required"],
         trim: true,
-        minlength: 3,
+        minlength: [3,"firstname minimum 3 letters"]
     },
     lastname: {
         type:String,
@@ -25,7 +25,7 @@ const userSchema = new Schema({
         },
         required: [true,"lastname required"],
         trim: true,
-        minlength: 3,
+        minlength: [3,"lastname minimum 3 letters"],
     },
     email: {
         type:String,
@@ -51,8 +51,7 @@ const userSchema = new Schema({
         },
         required: [true,"username required"],
         trim: true,
-        minlength: 3,
-        maxlength: 8
+        minlength: [3,"username minimum 3 letters"],
     },
     password: {
         type: String,
@@ -63,6 +62,7 @@ const userSchema = new Schema({
             message: props => `${props.value} is not a valid password`
         },
         required: [true,"password required"],
+        minlength:[5,"lastname minimum 5 letters"]
     }
 })
 

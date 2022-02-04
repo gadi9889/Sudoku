@@ -19,6 +19,10 @@ const sudokuBoardSchmea = new Schema ({
         type: Array,
         value:[Number],
         default:undefined
+    },
+    difficulty: {
+        type: Number,
+        default:undefined
     }
 })
 

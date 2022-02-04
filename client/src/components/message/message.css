@@ -1,0 +1,23 @@
+#message-container {
+    width: clamp(20%,250px,89%);
+    border: solid rgb(93, 0, 168) 5px;
+    margin: auto;
+    padding: 3%;
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 50px;
+    overflow: hidden;
+    text-align: center;
+}
+
+#dropdown-background {
+    display: flex;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    z-index: 2;
+    overflow: hidden;
+  }
+  

@@ -10,6 +10,7 @@ router.patch('/', (req,res) => {
             let posArray = sudokuPosGenerator.blankedPositionsArray
             board.displayBoard = SudokuGenerator.displayGrid(req.query.difficulty,board.fullBoard,posArray)
             board.blankedPositions = sudokuPosGenerator.blankedPositionsArray
+            board.difficulty = parseInt(req.query.difficulty)
             await board.save()
             res.json(board)
         }).catch(err => {

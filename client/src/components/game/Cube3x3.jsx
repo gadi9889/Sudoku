@@ -2,7 +2,7 @@ import React from 'react';
 import Cell from './Cell';
 import { motion } from 'framer-motion';
 
-export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositions }) {
+export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositions,difficulty,setIsFilled}) {
     const cubeMaker = (id) => {
         let cellList = []
         let rowStart = startingRow(id)
@@ -23,7 +23,7 @@ export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositio
     }
 
     const isBlanked = (cell,blankedPositions) => {
-        for (let i = 0; i < blankedPositions.length; i++) {
+        for (let i = 0; i < blankedPositions.length; i+=difficulty) {
             if (cell == blankedPositions[i]) {
                 return true
             }
@@ -33,7 +33,18 @@ export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositio
 
     const cellSetter = (colStart,rowStart,cells,cellList) => {
         if (isBlanked((cells+colStart+rowStart-1),blankedPositions)) {
-            cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} values={displayBoard} initialValue={''} setValues={setDisplayBoard} isReadOnly={false}/>
+            cellList[cells-1] = <Cell 
+                                    colStart={colStart} 
+                                    rowStart={rowStart} 
+                                    cell={cells} 
+                                    values={displayBoard} 
+                                    initialValue={''} 
+                                    setValues={setDisplayBoard} 
+                                    isReadOnly={false} 
+                                    blankedPositions={blankedPositions} 
+                                    setIsFilled={setIsFilled} 
+                                    difficulty={difficulty}
+                                />
         } else {
             cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} values={displayBoard} isReadOnly={true}/>
         }

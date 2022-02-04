@@ -74,7 +74,7 @@ export default function DifficultyPick({setSudokuBoards,username}) {
           method: 'PATCH'
         }).then(res => res.json())
         .then(data => {
-          setSudokuBoards(data.displayBoard,data.fullBoard,data.blankedPositions)
+          setSudokuBoards(data)
           navigate('/game')
         })
         .catch(err => console.log(err))

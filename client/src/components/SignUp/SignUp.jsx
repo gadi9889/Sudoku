@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Message from '../message/Message';
 import FieldMoudle from './FieldMoudle';
 import './signin.css'
 
@@ -82,7 +83,10 @@ export default function SignIn() {
     const [scrollUpP1, setScrollUpP1] = useState(false);
     const [scrollUpP2, setScrollUpP2] = useState(false);
     const [wasSubmitted, setWasSubmitted] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
+    const [message, setMessage] = useState();
     const [userInput, setUserInput] = useState([]);
+
     let navigate = useNavigate()
 
     const getFName = (e) => {userInput[0] = e.target.value;console.log(userInput[0])}
@@ -114,7 +118,11 @@ export default function SignIn() {
               navigate('/login')
             }, 2000)
           } else {
-          setWasSubmitted(false)
+            setWasSubmitted(false)
+            setShowMessage(true)
+            let messageEnd = ((data.message.indexOf(',')!=-1)?data.message.indexOf(','):data.message.length)
+            let message = data.message.substring(data.message.indexOf(':')+1,messageEnd)
+            setMessage(message)
           }
         })
         .catch(err => console.log(err))
@@ -135,7 +143,12 @@ export default function SignIn() {
         setScrollUpP2(false)
     }
 
+    const messageOff = () => {
+        setShowMessage(false)
+    }
+
   return (
+      <>
       <motion.div onClick={(e) => e.stopPropagation()}
         variants={signupMainDiv}
         initial='start'
@@ -180,7 +193,8 @@ export default function SignIn() {
             </motion.div>
             
         </motion.div>
-        
     </motion.div>
+    <Message showMessage={showMessage} message={message} onClick={messageOff}/>
+    </>
   )
 }

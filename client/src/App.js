@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './App.css';
 import Login from './components/login/Login';
 import {BrowserRouter as Router,useLocation,Routes,Route,useNavigate } from 'react-router-dom'
@@ -11,18 +11,14 @@ import DifficultyPick from './components/game/DifficultyPick'
 
 
 function App() {
-  const [displayBoard, setDisplayBoard] = useState([]);
-  const [fullBoard, setFullBoard] = useState([]);
-  const [blankedPositions, setBlankedPositions] = useState([]);
+  const [boardData, setBoardData] = useState([]);
   const [currentUsername, setCurrentUsername] = useState();
   
   let location = useLocation()
   let navigate = useNavigate()
 
-  const setSudokuBoards = (displayBoard,fullBoard,blankedPositions) => {
-    setDisplayBoard(displayBoard)
-    setFullBoard([...fullBoard])
-    setBlankedPositions(blankedPositions)
+  const setSudokuBoards = (data) => {
+    setBoardData(data)
   }
 
   return (
@@ -32,7 +28,7 @@ function App() {
           <Route exact path='/' element={<Home/>}/>
           <Route exact path='/SignUp' element={<SignUp/>}/>
           <Route exact path='/LogIn' element={<Login setCurrentUsername={setCurrentUsername}/>}/>
-          <Route exact path='/Game' element={<GameBoard displayBoard={displayBoard} fullBoard={fullBoard} blankedPositions={blankedPositions}/>}/>
+          <Route exact path='/Game' element={<GameBoard data={boardData}/>}/>
           <Route exact path='/menu' element={<Menu/>}/>
           <Route exact path='/difficultypicker' element={<DifficultyPick setSudokuBoards={setSudokuBoards} username={currentUsername}/>}/>
         </Routes>

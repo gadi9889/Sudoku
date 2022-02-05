@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require("express")
 const app = express()
 const cors = require('cors')
+const path = require('path')
 
 const mongoose = require('mongoose')
 
@@ -23,9 +24,16 @@ const gamesRouter = require('./routes/games')
 app.use('/api/users', usersRouter)
 app.use('/api/games', gamesRouter)
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+
+  app.get('*', (req,res) => {
+    res.send(__dirname, 'client', 'build', 'index.html')
+  })
+}
+
 app.get('/', (req,res) => {
   console.log("server is live")
-  res.send()
 })
  
 app.listen((process.env.PORT), () => {

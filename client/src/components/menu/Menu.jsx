@@ -72,6 +72,7 @@ export default function Menu({username}) {
     }).then(res => res.json())
     .then(data => {
       if (Object.keys(data).length == 4) {
+        console.log('aa')
         setIsNewUser(true)//send to app.js
       }
     })

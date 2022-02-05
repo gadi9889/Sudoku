@@ -68,7 +68,7 @@ export default function GameStart() {
     const [isNewUser, setIsNewUser] = useState();
     let location = useLocation()
     useEffect(() => {
-      setIsNewUser(location.state)
+      setIsNewUser(location.state.new)
     }, []);
     
     return (

@@ -68,10 +68,7 @@ export default function GameStart() {
     const [isNewUser, setIsNewUser] = useState();
     let location = useLocation()
     useEffect(() => {
-        console.log(location.state)
-      if (location.state == true) {
-          setIsNewUser(true)
-      }
+      setIsNewUser(location.state)
     }, []);
     
     return (
@@ -96,7 +93,7 @@ export default function GameStart() {
             <motion.button className='component-links'
               variants={loginVariants}
             >
-              <Link to={'/difficultypicker'} style={{textDecoration:'none',color:'black'}}>new</Link>
+              <Link to={'/difficultypicker'} state={{from:'menu'}} style={{textDecoration:'none',color:'black'}}>new</Link>
             </motion.button>
           </div>
         </motion.div>

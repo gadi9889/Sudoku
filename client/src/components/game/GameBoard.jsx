@@ -113,7 +113,7 @@ export default function GameBoard({data,username}) {
             method: 'PATCH'
           }).then(res => res.json())
           .then(data => {
-            navigate(-2,{replace:true})
+            navigate(-3,{replace:true})
           })
           .catch(err => console.log(err))
     }

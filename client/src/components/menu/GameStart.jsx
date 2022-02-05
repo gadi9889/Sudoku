@@ -64,20 +64,16 @@ const loginVariants = {
     }
 }
 
-export default function Menu({username}) {
-  const [isNewUser, setIsNewUser] = useState(false);
-  useEffect(() => { 
-    fetch(`http://localhost:3001/api/games/?username=${username}`, {
-      method: 'GET'
-    }).then(res => res.json())
-    .then(data => {
-      if (Object.keys(data).length == 4) {
-        setIsNewUser(true)//send to app.js
+export default function GameStart() {
+    const [isNewUser, setIsNewUser] = useState();
+    let location = useLocation()
+    useEffect(() => {
+        console.log(location.state)
+      if (location.state == true) {
+          setIsNewUser(true)
       }
-    })
-    .catch(err => console.log(err))
-  }, []);
-  
+    }, []);
+    
     return (
         <motion.div id='component-main-div' onClick={(e) => e.stopPropagation()}
           variants={mainDivVariants}
@@ -88,19 +84,19 @@ export default function Menu({username}) {
           <motion.h2
             variants={h2Variants}
           >
-            Hello!
+            {isNewUser?"Let's get you started":"Welcome back"}
           </motion.h2>
           <div id="component-options-box">
-            <motion.button className='component-links'
+            {!isNewUser&&(<motion.button className='component-links'
               variants={signupVariants}
             >
-              <Link to='/leaderboard' style={{textDecoration:'none',color:'black'}}>LeaderBoard</Link>
-            </motion.button>
+              <Link to='/game' style={{textDecoration:'none',color:'black'}}>continue</Link>
+            </motion.button>)}
   
             <motion.button className='component-links'
               variants={loginVariants}
             >
-              <Link to={'/gamestart'} state={{new: isNewUser}} style={{textDecoration:'none',color:'black'}}>Game</Link>
+              <Link to={'/difficultypicker'} style={{textDecoration:'none',color:'black'}}>new</Link>
             </motion.button>
           </div>
         </motion.div>

@@ -7,6 +7,8 @@ export default function Cell({cell,colStart,rowStart,isReadOnly,values,setValues
     const inputControl = (e,values) => {
         if (e.target.value%10 == 0){
             setIsFilled(false)
+            values[cell+colStart+rowStart-1] = ''
+            setValues(values)
             return setWasValueChanged('')
         }
         setWasValueChanged(e.target.value%10)

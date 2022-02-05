@@ -8,6 +8,7 @@ import GameBoard from './components/game/GameBoard';
 import Home from './components/home/Home';
 import Menu from './components/menu/Menu';
 import DifficultyPick from './components/game/DifficultyPick'
+import GameStart from './components/menu/GameStart';
 
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
           <Route exact path='/SignUp' element={<SignUp/>}/>
           <Route exact path='/LogIn' element={<Login setCurrentUsername={setCurrentUsername}/>}/>
           <Route exact path='/Game' element={<GameBoard data={boardData} username={currentUsername}/>}/>
-          <Route exact path='/menu' element={<Menu/>}/>
+          <Route exact path='/menu' element={<Menu username={currentUsername}/>}/>
+          <Route exact path='/gamestart' element={<GameStart/>}/>
           <Route exact path='/difficultypicker' element={<DifficultyPick setSudokuBoards={setSudokuBoards} username={currentUsername}/>}/>
         </Routes>
       </AnimatePresence>

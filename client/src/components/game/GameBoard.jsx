@@ -45,10 +45,6 @@ export default function GameBoard({data,username}) {
     const updateIsFilled = (bool) => {
         setIsFilled(bool)
     }
-
-    const updateBoard = (board) => {
-        setboard(board)
-    }
     
     const checkHandle = (inputBoard,answerBoard,blankedPositions) => {
         for (let i = 0; i < blankedPositions.length; i++) {
@@ -96,13 +92,13 @@ export default function GameBoard({data,username}) {
     const boardReset = (e) => {
         e.stopPropagation()
         setboard(data.displayBoard)
-        navigate(-1)
+        navigate('/difficultypicker',{state:{from:'reset'}})
         console.log(board)
     }
 
     const boardNew = (e) => {
         e.stopPropagation()
-        navigate('/difficultypicker',{state:{new:true}})
+        navigate('/difficultypicker',{state:{from:'new'}})
     }
 
     const backHandle = (e,board) => {
@@ -148,13 +144,13 @@ export default function GameBoard({data,username}) {
                 >
                     New
                 </motion.button>
-                <motion.button className='game-options' onClick={(e) => backHandle(e,board)}
+                {!isSolved &&(<motion.button className='game-options' onClick={(e) => backHandle(e,board)}
                     whileHover={{scale:1.2,x:10}}
                     whileTap={{x:-5,scaleY:0.8}}
                     exit={{opacity:0}}
                 >
                     Back
-                </motion.button>
+                </motion.button>)}
             </motion.div>
             <motion.div id='game-board'
                 exit={endSequence}

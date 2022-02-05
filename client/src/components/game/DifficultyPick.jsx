@@ -70,10 +70,14 @@ export default function DifficultyPick({username,setSudokuBoards}) {
 
     const clickHandle = (difficulty) => {
       console.log(location)
-      if (location.state.new == false) {
-        let address = `http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}`
+      if (location.state.from == 'menu') {
+        let address = `http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}&reset=${false}`
         bringboards(address,'/game')
-      } else {
+      } else if (location.state.from == 'reset') {
+        console.log('aa')
+        let address = `http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}&reset=${true}`
+        bringboards(address,-1)
+      }else{
         let address = `http://localhost:3001/api/games/new/?username=${username}&difficulty=${difficulty}`
         bringboards(address,-1)
       }

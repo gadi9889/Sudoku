@@ -13,6 +13,12 @@ router.patch('/', (req,res) => {
                 board.blankedPositions = posArray
                 board.difficulty = parseInt(req.query.difficulty)
                 await board.save()
+            } 
+            if(req.query.reset == 'true') {
+                console.log('wagwan')
+                board.difficulty = parseInt(req.query.difficulty)
+                board.displayBoard = SudokuGenerator.displayGrid(req.query.difficulty,board.fullBoard,board.blankedPositions)
+                await board.save()
             }
             res.json(board)
         }).catch(err => {
@@ -29,6 +35,8 @@ router.patch('/new/' , async(req,res) => {
             board.blankedPositions = posArray
             await board.save()
             res.json(board)
+        }).catch(err => {
+            res.status(500).json({message:err.message})
         })
 })
 
@@ -38,12 +46,18 @@ router.patch('/save', async(req,res) => {
             board.displayBoard = req.body.displayBoard
             await board.save()
             res.json({message:"progress saved"})
+        }).catch(err => {
+            res.status(500).json({message:err.message})
         })
 })
 
 router.get('/', async(req,res) => {
-    const sudokuBoard = await SudokuBoard.findOne({username:req.query.username})
-    res.json(sudokuBoard.fullBoard)
+    SudokuBoard.findOne({username:req.query.username})
+        .then(async(board) => {
+            res.json(board)
+        }).catch(err => {
+            res.status(500).json({message:err.message})
+        })
 })
 
 module.exports = router

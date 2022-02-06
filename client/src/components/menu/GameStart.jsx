@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import {BrowserRouter as Router,Link, useLocation} from 'react-router-dom'
+import {BrowserRouter as Router,Link, useLocation, useNavigate} from 'react-router-dom'
 
 const mainDivVariants = {
     start: {
@@ -64,12 +64,29 @@ const loginVariants = {
     }
 }
 
-export default function GameStart() {
+export default function GameStart({setSudokuBoards,username}) {
     const [isNewUser, setIsNewUser] = useState();
+
+    let navigate = useNavigate()
     let location = useLocation()
+
     useEffect(() => {
       setIsNewUser(location.state.new)
     }, []);
+
+    const continueHandle = () => {
+      fetch(`http://localhost:3001/api/games/?username=${username}&difficulty=${null}&reset=${false}`, {
+        headers:{
+          'Content-Type':'application/json'
+        },
+        method: 'PATCH'
+      }).then(res => res.json())
+      .then(data => {
+        setSudokuBoards(data)
+        navigate('/game',{state:{from:'gamestart'}})
+      })
+      .catch(err => console.log(err))
+    }
     
     return (
         <motion.div id='component-main-div' onClick={(e) => e.stopPropagation()}
@@ -84,16 +101,16 @@ export default function GameStart() {
             {isNewUser?"Let's get you started":"Welcome back"}
           </motion.h2>
           <div id="component-options-box">
-            {!isNewUser&&(<motion.button className='component-links'
+            {!isNewUser&&(<motion.button className='component-links' onClick={() => continueHandle()}
               variants={signupVariants}
             >
-              <Link to='/game' style={{textDecoration:'none',color:'black'}}>continue</Link>
+              continue
             </motion.button>)}
   
             <motion.button className='component-links'
               variants={loginVariants}
             >
-              <Link to={'/difficultypicker'} state={{from:'menu'}} style={{textDecoration:'none',color:'black'}}>new</Link>
+              <Link to={'/difficultypicker'} state={{from:'newF'}} style={{textDecoration:'none',color:'black'}}>new</Link>
             </motion.button>
           </div>
         </motion.div>

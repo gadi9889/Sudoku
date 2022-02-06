@@ -1,8 +1,11 @@
 const router = require('express').Router()
 
 const bcrypt = require('bcryptjs')
+
+let Stat = require('../models/stat')
 let User = require('../models/user.js')
 let SudokuBoard = require('../models/sudokuBoard')
+
 let SudokuGenerator = require('../sudokuGenerator/sudokuGenerator')
 
 router.get('/', async (req,res) => {
@@ -34,6 +37,10 @@ router.post('/signup', async (req,res) => {
             fullBoard:SudokuGenerator.fullBoard()
         })
         await newBoard.save()
+        const newStat = new Stat({
+            username:req.body.username
+        })
+        await newStat.save()
         res.status(201).json({message:"user added"})
     } catch (err) {
         res.status(400).json({message:err.message})

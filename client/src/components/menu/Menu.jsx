@@ -89,7 +89,7 @@ export default function Menu({username}) {
           <motion.h2
             variants={h2Variants}
           >
-            Hello!
+            Hello {username}!
           </motion.h2>
           <div id="component-options-box">
             <motion.button className='component-links'

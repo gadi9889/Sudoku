@@ -1,7 +1,7 @@
 import Cube3x3 from './Cube3x3';
 import './Game.css'
 import { motion,useAnimation } from 'framer-motion';
-import {BrowserRouter as Router,useNavigate} from 'react-router-dom'
+import {BrowserRouter as Router,useLocation,useNavigate} from 'react-router-dom'
 import React,{ useState } from 'react';
 import Message from '../message/Message';
 
@@ -39,7 +39,9 @@ export default function GameBoard({data,username}) {
     const [isSolved, setIsSolved] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
     const [messageText, setMessageText] = useState(['Congratulations you are officially AMAZING']);
-    const [showMessage, setShowMessage] = useState(false);
+    const [showMessage, setShowMessage] = useState(true);
+
+    let location = useLocation()
     let navigate = useNavigate()
     
     const updateIsFilled = (bool) => {
@@ -85,7 +87,16 @@ export default function GameBoard({data,username}) {
     const messageShow = () => {
         setShowMessage(false)
         if (isSolved) {
+            console.log(data.difficulty)
+            let difficultyString = (data.difficulty == 1)?'easy':'hard'
             setIsFilled(false)
+            fetch(`http://localhost:3001/api/stats/solved/${difficultyString}?username=${username}`, {
+            headers:{
+                'Content-Type':'application/json'
+            },
+            method: 'PATCH'
+          }).then(res => console.log(res.json()))
+          .catch(err => console.log(err))
         }
     }
     
@@ -111,10 +122,13 @@ export default function GameBoard({data,username}) {
                 displayBoard:board
             }),
             method: 'PATCH'
-          }).then(res => res.json())
-          .then(data => {
-            navigate(-3,{replace:true})
-          })
+          }).then(() => {
+              if (location.state.from == 'gamestart') {
+                navigate(-2,{replace:true})
+              } else {
+                navigate(-3,{replace:true})
+              }
+            })
           .catch(err => console.log(err))
     }
 

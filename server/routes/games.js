@@ -15,7 +15,6 @@ router.patch('/', (req,res) => {
                 await board.save()
             } 
             if(req.query.reset == 'true') {
-                console.log('wagwan')
                 board.difficulty = parseInt(req.query.difficulty)
                 board.displayBoard = SudokuGenerator.displayGrid(req.query.difficulty,board.fullBoard,board.blankedPositions)
                 await board.save()
@@ -33,6 +32,7 @@ router.patch('/new/' , async(req,res) => {
             board.fullBoard = SudokuGenerator.fullBoard()
             board.displayBoard = SudokuGenerator.displayGrid(req.query.difficulty,board.fullBoard,posArray)
             board.blankedPositions = posArray
+            board.difficulty = parseInt(req.query.difficulty)
             await board.save()
             res.json(board)
         }).catch(err => {

@@ -21,8 +21,10 @@ app.use(
 
 const usersRouter = require('./routes/users')
 const gamesRouter = require('./routes/games')
+const statsRouter = require('./routes/stats')
 app.use('/api/users', usersRouter)
 app.use('/api/games', gamesRouter)
+app.use('/api/stats', statsRouter)
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
@@ -34,6 +36,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.get('/', (req,res) => {
   console.log("server is live")
+  res.send({message:'server is live'})
 })
  
 app.listen((process.env.PORT), () => {

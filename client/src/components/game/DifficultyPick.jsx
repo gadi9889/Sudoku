@@ -69,17 +69,15 @@ export default function DifficultyPick({username,setSudokuBoards}) {
     let location = useLocation()
 
     const clickHandle = (difficulty) => {
-      console.log(location)
       if (location.state.from == 'menu') {
         let address = `http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}&reset=${false}`
         bringboards(address,'/game')
       } else if (location.state.from == 'reset') {
-        console.log('aa')
         let address = `http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}&reset=${true}`
         bringboards(address,-1)
       }else{
         let address = `http://localhost:3001/api/games/new/?username=${username}&difficulty=${difficulty}`
-        bringboards(address,-1)
+        bringboards(address,(location.state.from == 'newF')?'/game':-1)
       }
     }
 
@@ -92,7 +90,7 @@ export default function DifficultyPick({username,setSudokuBoards}) {
         }).then(res => res.json())
         .then(data => {
           setSudokuBoards(data)
-          navigate(to)
+          navigate(to,{state:{from:'dp'}})
         })
         .catch(err => console.log(err))
     }

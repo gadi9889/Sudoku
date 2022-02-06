@@ -54,8 +54,7 @@ const userSchema = new Schema({
         minlength: [3,"username minimum 3 letters"],
     },
     password: {
-        type: String,
-        required: [true,"password required"]
+        type: String
     }
 })
 

@@ -4,7 +4,7 @@ let SudokuBoard = require('../models/sudokuBoard')
 let SudokuGenerator = require('../sudokuGenerator/sudokuGenerator')
 let sudokuPosGenerator = require('../sudokuGenerator/sudokuPosGenerator')
 
-router.patch('/', (req,res) => {
+router.patch('/' ,(req,res) => {
     SudokuBoard.findOne({username:req.query.username})
         .then(async(board) => {
             if (board.displayBoard == undefined) {
@@ -25,7 +25,7 @@ router.patch('/', (req,res) => {
         })
 })
 
-router.patch('/new/' , async(req,res) => {
+router.patch('/new' , async(req,res) => {
     await SudokuBoard.findOne({username:req.query.username})
         .then(async(board) => {
             let posArray = sudokuPosGenerator.blankedPositionsArray()
@@ -40,7 +40,7 @@ router.patch('/new/' , async(req,res) => {
         })
 })
 
-router.patch('/save', async(req,res) => {
+router.patch('/save',async(req,res) => {
     await SudokuBoard.findOne({username:req.query.username})
         .then(async(board) => {
             board.displayBoard = req.body.displayBoard
@@ -49,15 +49,29 @@ router.patch('/save', async(req,res) => {
         }).catch(err => {
             res.status(500).json({message:err.message})
         })
-})
-
-router.get('/', async(req,res) => {
+    })
+    
+router.patch('/solved', (req,res) => {
     SudokuBoard.findOne({username:req.query.username})
         .then(async(board) => {
-            res.json(board)
+            board.displayBoard = undefined
+            await board.save()
+            res.json({message:'board reset'})
         }).catch(err => {
             res.status(500).json({message:err.message})
         })
 })
+
+function authenticateToken(req,res,next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.status(401).send()
+
+    jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
+        if (err) return res.status(403).send
+        req.user = user
+        next()
+    })
+}
 
 module.exports = router

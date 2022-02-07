@@ -1,5 +1,7 @@
-const router = require('express').Router()
+require('dotenv').config()
 
+const router = require('express').Router()
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 let Stat = require('../models/stat')
@@ -14,6 +16,36 @@ router.get('/', async (req,res) => {
         res.json(users)
     } catch (err) {
         res.status(500).json({message:err.message})
+    }
+})
+
+router.post('/signup', async (req,res) => {
+    console.log('signup attempt ' + new Date().toLocaleString('en'))
+    if (req.body.password == null || req.body.password.trim().length < 5) {
+        return res.status(404).json({message:'minimum password length is 5'})
+    }
+    try {
+        const encPassword = await bcrypt.hash(req.body.password.trim(),5)
+        const newUser = new User({
+            firstname:req.body.firstname,
+            lastname:req.body.lastname,
+            email:req.body.email,
+            username:req.body.username,
+            password:encPassword,
+        })
+        await newUser.save()
+        const newBoard = new SudokuBoard({
+            username:req.body.username,
+            fullBoard:SudokuGenerator.fullBoard()
+        })
+        await newBoard.save()
+        const newStat = new Stat({
+            username:req.body.username
+        })
+        await newStat.save()
+        res.status(201).json({message:"user added"})
+    } catch (err) {
+        res.status(400).json({message:err.message})
     }
 })
 
@@ -57,7 +89,8 @@ router.post('/login', (req,res) => {
                         return res.status(500).json({message:err})
                     }
                     if (result) {
-                        res.json({message:"welcome"})
+                        const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN) 
+                        res.json({message:"welcome",accessToken:accessToken})
                     }
                     else {
                         res.json({message:"wrong password"})

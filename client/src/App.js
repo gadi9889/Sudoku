@@ -32,6 +32,7 @@ function App() {
           <Route exact path='/LogIn' element={<Login setCurrentUsername={setCurrentUsername}/>}/>
           <Route exact path='/Game' element={<GameBoard data={boardData} username={currentUsername}/>}/>
           <Route exact path='/menu' element={<Menu username={currentUsername}/>}/>
+          <Route exact path='/leaderboard' element={<Leaderboard username={currentUsername}/>}/>
           <Route exact path='/gamestart' element={<GameStart username={currentUsername} setSudokuBoards={setSudokuBoards}/>}/>
           <Route exact path='/difficultypicker' element={<DifficultyPick setSudokuBoards={setSudokuBoards} username={currentUsername}/>}/>
         </Routes>

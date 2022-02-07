@@ -112,7 +112,7 @@ export default function Login({setCurrentUsername}) {
 
   const clickHandle = async () => {
     setWasSubmitted(true)
-    await fetch('http://localhost:3001/api/users/login', {
+    await fetch('http://localhost:4000/login', {
       headers:{
         'Content-Type':'application/json'
       },

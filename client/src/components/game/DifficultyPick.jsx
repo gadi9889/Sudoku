@@ -76,7 +76,7 @@ export default function DifficultyPick({username,setSudokuBoards}) {
         let address = `http://localhost:3001/api/games/?username=${username}&difficulty=${difficulty}&reset=${true}`
         bringboards(address,-1)
       }else{
-        let address = `http://localhost:3001/api/games/new/?username=${username}&difficulty=${difficulty}`
+        let address = `http://localhost:3001/api/games/new?username=${username}&difficulty=${difficulty}`
         bringboards(address,(location.state.from == 'newF')?'/game':-1)
       }
     }

@@ -1,17 +1,10 @@
 require('dotenv').config()
+require('./config/database').connect()
 
 const express = require("express")
 const app = express()
 const cors = require('cors')
 const path = require('path')
-
-const mongoose = require('mongoose')
-
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser:true});
-
-const db = mongoose.connection;
-db.on('error', (err) => console.error(err));
-db.once('open', ()=>console.log("connected"));
 
 app.use(express.json())
 app.use(
@@ -30,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
 
   app.get('*', (req,res) => {
-    res.send(__dirname, 'client', 'build', 'index.html')
+    res.send(__dirname, 'client/build', 'index.html')
   })
 }
 

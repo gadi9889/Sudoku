@@ -1,40 +1,109 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import './leaderboard.css'
+
+const tdVariants = {
+    start: {
+        y:10,
+        scale:1.05
+    },
+    end: {
+        y:0,
+        scale:1
+    }
+}
 
 export default function Leaderboard() {
-    let list = [{
-        position:1,
-        username:'rami',
-        points:5
-    },
-    {
-        position:2,
-        username:'gadi',
-        points:2
-    }
-    ]
+    const [stats, setStats] = useState([0]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/api/stats/', {
+            method: 'GET',
+        }).then(res => res.json())
+        .then((data) => {
+            let arr = [...data]
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < arr.length-1-i; j++) {
+                    if (arr[j].points < arr[j+1].points) {
+                        let tmp = arr[j+1]
+                        arr[j+1] = arr[j]
+                        arr[j] = tmp
+                    }
+                }
+            }
+            console.log(arr)
+            setStats([...arr])
+        })
+        .catch(err => console.log(err))
+    }, []);
+    
     return (
-    <motion.div>
-        <table style={{borderBottom:'solid black 1px',borderTop:'solid black 1px',borderRadius:'10px',margin:'5vh auto',padding:'10px'}}>
-            <thead>
+    <motion.div id='leaderboard-container'
+        initial={{scaleY:0}}
+        animate={{scaleY:1}}
+        transition={{duration:1}}
+    >
+        <h2>LeaderBoard</h2>
+        <motion.table onClick={(e) => e.stopPropagation()}
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            transition={{delay:1,duration:1}}
+        >
+            <motion.thead
+                initial={{opacity:0}}
+                animate={{opacity:1}}
+                transition={{delay:1,duration:1}}
+            >
                 <tr>
-                    <th style={{boxShadow:'0 0 3px',borderRadius:'10px'}}>#</th>
-                    <th>username</th>
-                    <th>points</th>
+                    <motion.th
+                        initial={{x:30}}
+                        animate={{x:0}}
+                        transition={{delay:1,duration:1}}
+                    >#</motion.th>
+                    <motion.th
+                        initial={{x:30}}
+                        animate={{x:0}}
+                        transition={{delay:1,duration:1}}
+                    >username</motion.th>
+                    <motion.th 
+                        initial={{x:30}}
+                        animate={{x:0}}
+                        transition={{delay:1,duration:1}}
+                    >points</motion.th>
+                    <motion.th 
+                        initial={{x:30}}
+                        animate={{x:0}}
+                        transition={{delay:1,duration:1}}
+                    >easy-solved</motion.th>
+                    <motion.th 
+                        initial={{x:30}}
+                        animate={{x:0}}
+                    >hard-solved</motion.th>
                 </tr>
-            </thead>
-            <tbody>
-                {list.map((user) => {
+            </motion.thead>
+            <motion.tbody
+                initial={{opacity:0}}
+                animate={{opacity:1}}
+                transition={{delay:1.5,duration:1}}
+            >
+                {stats.map((user ,i) => {
                     return (
-                        <tr>
-                            <th style={{boxShadow:'0 0 3px',borderRadius:'10px'}}>{user.position}</th>
-                            <th>{user.username}</th>
-                            <th>{user.points}</th>
-                        </tr>
+                        <motion.tr
+                            variants={tdVariants}
+                            initial='start'
+                            animate='end'
+                            transition={{delay:(i+2)/3,duration:0.5}}
+                        >
+                            <td>{i+1}</td>
+                            <td>{user.username}</td>
+                            <td>{user.points}</td>
+                            <td>{user.easy_solved}</td>
+                            <td>{user.hard_solved}</td>
+                        </motion.tr>
                     )
                 })}
-            </tbody>
-        </table>
+            </motion.tbody>
+        </motion.table>
     </motion.div>
     )
 }

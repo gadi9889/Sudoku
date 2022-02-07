@@ -7,10 +7,10 @@ POST http://localhost:3001/api/users/signup
 Content-Type: application/json
 
 {
-    "firstname":"one",
-    "lastname":"one",
-    "email":"one@one.com",
-    "username":"one",
+    "firstname":"seven",
+    "lastname":"seven",
+    "email":"seven@seven.com",
+    "username":"seven",
     "password":"123456"
 }
 

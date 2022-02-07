@@ -31,7 +31,7 @@ router.patch('/solved/easy',(req,res) => {
             stat.points += 5
             stat.easy_solved += 1
             await stat.save()
-            res.send({message:'stat updated'})
+            res.redirect(`/api/games/solved?username=${req.query.username}`)
         }).catch(err => {
             res.status(500).json({message:err.message})
         })

@@ -39,7 +39,7 @@ export default function GameBoard({data,username}) {
     const [isSolved, setIsSolved] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
     const [messageText, setMessageText] = useState(['Congratulations you are officially AMAZING']);
-    const [showMessage, setShowMessage] = useState(true);
+    const [showMessage, setShowMessage] = useState(false);
 
     let location = useLocation()
     let navigate = useNavigate()
@@ -51,7 +51,6 @@ export default function GameBoard({data,username}) {
     const checkHandle = (inputBoard,answerBoard,blankedPositions) => {
         for (let i = 0; i < blankedPositions.length; i++) {
             if (inputBoard[blankedPositions[i]] != answerBoard[blankedPositions[i]]) {
-                console.log(inputBoard[blankedPositions[i]])
                 setMessageText([`check that ${inputBoard[blankedPositions[i]]} in line ${Math.floor(blankedPositions[i]/9)+1}`])
                 return setShowMessage(true)
             }
@@ -87,15 +86,20 @@ export default function GameBoard({data,username}) {
     const messageShow = () => {
         setShowMessage(false)
         if (isSolved) {
-            console.log(data.difficulty)
-            let difficultyString = (data.difficulty == 1)?'easy':'hard'
+            let difficultyString = (data.difficulty == 1)?'hard':'easy'
             setIsFilled(false)
             fetch(`http://localhost:3001/api/stats/solved/${difficultyString}?username=${username}`, {
             headers:{
                 'Content-Type':'application/json'
             },
             method: 'PATCH'
-          }).then(res => console.log(res.json()))
+          }).then(() => {
+                if (location.state.from == 'gamestart') {
+                    navigate(-2,{replace:true})
+                } else {
+                    navigate(-3,{replace:true})
+                }
+          })
           .catch(err => console.log(err))
         }
     }
@@ -104,7 +108,6 @@ export default function GameBoard({data,username}) {
         e.stopPropagation()
         setboard(data.displayBoard)
         navigate('/difficultypicker',{state:{from:'reset'}})
-        console.log(board)
     }
 
     const boardNew = (e) => {

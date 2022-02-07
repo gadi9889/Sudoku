@@ -89,7 +89,7 @@ export default function SignIn() {
 
     let navigate = useNavigate()
 
-    const getFName = (e) => {userInput[0] = e.target.value;console.log(userInput[0])}
+    const getFName = (e) => {userInput[0] = e.target.value}
     const getLName = (e) => {userInput[1] = e.target.value}
     const getUsername = (e) => {userInput[2] = e.target.value}
     const getEmail = (e) => {userInput[3] = e.target.value}

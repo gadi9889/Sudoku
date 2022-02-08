@@ -4,7 +4,7 @@
   "description": "sudoku game backend managment",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "cd server && node server.js && node authServer.js",
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm install && npm run build"

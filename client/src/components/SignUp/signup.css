@@ -1,11 +1,13 @@
 .up {
     transform: rotate(-135deg);
     -webkit-transform: rotate(-135deg);
+    margin-top: 0;
 }
 
 .down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
+    margin-top: 15px;
 }
 
 .arrow {
@@ -14,45 +16,46 @@
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
+    z-index: 1;
 }  
 
 #signin-container {
     background-color: rgba(255,255,255,0.7);
     box-shadow: 0px 0px 4px 0px rgba(255,255,255,0.7);
-    width: 22%;
+    width: clamp(25%,150px,90%);
     margin: 5% auto;
     border-radius: 20px;
     padding: 20px;
     overflow: hidden;
-    height: 75%;
+    height: 80%;
 }
 
 #firstname-container {
     border-radius: 10px;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.1);
-    padding: 2%;
+    padding: 0 0 10px 5px;
 }
 
 #lastname-container {
     border-radius: 10px;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.1);
-    padding: 2%;
+    padding: 0 0 10px 5px;
 }
 
 #user-name-container {
     border-radius: 10px;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.1);
-    padding: 2%;
+    padding: 0 0 10px 5px;
 }
 
 #password_container {
     border-radius: 10px;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.1);
-    padding: 2%;
+    padding: 0 0 10px 5px;
 }
 
 #mail-container {
     border-radius: 10px;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.1);
-    padding: 2%;
+    padding: 0 0 10px 5px;
 }

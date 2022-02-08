@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion'
 import './Login.css'
-import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 
 const labelVariants = {
   start: {
@@ -13,7 +13,7 @@ const labelVariants = {
     }
   },
   end: {
-    x:-50,
+    x:'-25%',
     transition: {
       type:'spring',
       damping:10,
@@ -38,10 +38,11 @@ const submitVariants = {
     scale:0.9
   },
   end: {
-    y:-250,
-    color:'transparent',
-    height:250,
+    y:'-50vh',
+    height:300,
+    scaleX:1.1,
     transition: {
+      color:'transparent',
       delay:0.1
     }
   }
@@ -52,7 +53,7 @@ const passwordVariants = {
     x:0
   },
   end:{
-    x:-50,
+    x:'-25%',
     transition: {
       ease:'easeOut'
     }
@@ -64,41 +65,34 @@ const usernameVariants = {
     x:0
   },
   end:{
-    x:50,
+    x:'25%',
     transition: {
       ease:'easeOut'
     }
   }
 }
 
-const boxVariants = {
-  start: {
-    y:0
-  },
-  end: {
-    y:'90vh',
-    transition: {
-      delay:0.5,
-      duration:1
-    }
-  }
-}
-
 const startAnimationVariants = {
   start: {
-    y:-500
+    y:'100vh',
+    transition: {
+      duration:0.5,
+      type:'spring',
+      damping:15
+      
+    }
   },
   end: {
     y:0,
     transition: {
-      duration:0.3,
+      duration:0.5,
       type:'spring',
       damping:15
     }
   }
 }
 
-export default function Login({setCurrentUsername}) {
+export default function Login({setCurrentUsername, setToken}) {
   const [wasUsernameClicked, setWasUsernameClicked] = useState(false)
   const [wasPasswordClicked, setWasPasswordClicked] = useState(false)
   const [wasSubmitted, setWasSubmitted] = useState(false)
@@ -126,10 +120,11 @@ export default function Login({setCurrentUsername}) {
       if (data.message == 'welcome') {
         setTimeout(() => {
           setCurrentUsername(username)
+          setToken(data.accessToken,data.refreshToken)
           navigate('/menu')
-        }, 2000)
+        }, 2000);
       } else {
-      setWasSubmitted(false)
+        setWasSubmitted(false)
       }
     })
     .catch(err => console.log(err))
@@ -137,16 +132,13 @@ export default function Login({setCurrentUsername}) {
   
 
   return (
-    <motion.div onClick={(e) => e.stopPropagation()}
+    <motion.div
       variants={startAnimationVariants}
       initial='start'
       animate='end'
+      exit='start'
     >
-      <motion.div id="login-container"
-        variants={boxVariants}
-        animate={wasSubmitted ? 'end':'start'}
-        exit='end'
-      >
+      <div id="login-container" onClick={(e) => e.stopPropagation()}>
         <h1>Log In</h1>
         <motion.div id="username-container"
           variants={usernameVariants}
@@ -196,7 +188,7 @@ export default function Login({setCurrentUsername}) {
         animate={wasSubmitted ? 'end':'start'}
         onClick={() => clickHandle()}
       />
-    </motion.div>
+    </div>
   </motion.div>
   )
 }

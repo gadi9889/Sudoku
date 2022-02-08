@@ -9,7 +9,9 @@ input {
     border-radius: 10px;
     background-color: RGB(239, 192, 80);
     border: none;
-    height:30px
+    margin: 0 auto;
+    height:30px;
+    width: 97%
 }
 
 .component-links {

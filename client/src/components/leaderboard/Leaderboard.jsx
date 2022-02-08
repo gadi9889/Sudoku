@@ -54,32 +54,17 @@ export default function Leaderboard() {
                 animate={{opacity:1}}
                 transition={{delay:1,duration:1}}
             >
-                <tr>
-                    <motion.th
-                        initial={{x:30}}
-                        animate={{x:0}}
-                        transition={{delay:1,duration:1}}
-                    >#</motion.th>
-                    <motion.th
-                        initial={{x:30}}
-                        animate={{x:0}}
-                        transition={{delay:1,duration:1}}
-                    >username</motion.th>
-                    <motion.th 
-                        initial={{x:30}}
-                        animate={{x:0}}
-                        transition={{delay:1,duration:1}}
-                    >points</motion.th>
-                    <motion.th 
-                        initial={{x:30}}
-                        animate={{x:0}}
-                        transition={{delay:1,duration:1}}
-                    >easy-solved</motion.th>
-                    <motion.th 
-                        initial={{x:30}}
-                        animate={{x:0}}
-                    >hard-solved</motion.th>
-                </tr>
+                <motion.tr
+                    initial={{y:-30}}
+                    animate={{y:0}}
+                    transition={{delay:1,duration:1}}
+                >
+                    <th>#</th>
+                    <th>username</th>
+                    <th>points</th>
+                    <th>easy-solved</th>
+                    <th>hard-solved</th>
+                </motion.tr>
             </motion.thead>
             <motion.tbody
                 initial={{opacity:0}}

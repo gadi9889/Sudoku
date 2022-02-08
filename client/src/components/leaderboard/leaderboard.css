@@ -28,10 +28,17 @@ table td:hover {
 }
 
 #leaderboard-container {
+    height: 90vh;
     text-align: center;
     border-bottom:solid black 1px;
     border-top:solid black 1px;
     border-radius:10px;
-    margin:5vw;
-    padding:10px
+    padding:10px;
+    margin: 1vw;
+    overflow-y:auto;
+    overflow-x: hidden;
+}
+
+#leaderboard-container::-webkit-scrollbar {
+    appearance: hidden;
 }

@@ -1,9 +1,9 @@
-import Cube3x3 from './Cube3x3';
-import './Game.css'
 import { motion,useAnimation } from 'framer-motion';
 import {BrowserRouter as Router,useLocation,useNavigate} from 'react-router-dom'
 import React,{ useState } from 'react';
 import Message from '../message/Message';
+import Cube3x3 from './Cube3x3';
+import './Game.css'
 
 const checkVariants = {
     start: {
@@ -41,6 +41,8 @@ export default function GameBoard({data,username}) {
     const [messageText, setMessageText] = useState(['Congratulations you are officially AMAZING']);
     const [showMessage, setShowMessage] = useState(false);
 
+    const rowColLengthInBoard = 9
+
     let location = useLocation()
     let navigate = useNavigate()
     
@@ -51,7 +53,9 @@ export default function GameBoard({data,username}) {
     const checkHandle = (inputBoard,answerBoard,blankedPositions) => {
         for (let i = 0; i < blankedPositions.length; i++) {
             if (inputBoard[blankedPositions[i]] != answerBoard[blankedPositions[i]]) {
-                setMessageText([`check that ${inputBoard[blankedPositions[i]]} in line ${Math.floor(blankedPositions[i]/9)+1}`])
+                setMessageText(
+                    [`check that ${inputBoard[blankedPositions[i]]} in line ${Math.floor(blankedPositions[i]/rowColLengthInBoard)+1}`]
+                )
                 return setShowMessage(true)
             }
         }
@@ -62,7 +66,8 @@ export default function GameBoard({data,username}) {
 
     const cubeLayout = () => {
         let cubeList = []
-        for (let i = 0; i < 9; i++) {
+        let maxCubeAmount = 9
+        for (let i = 0; i < maxCubeAmount; i++) {
             cubeList[i] = <Cube3x3 
                             id={i} 
                             displayBoard={board} 
@@ -95,9 +100,11 @@ export default function GameBoard({data,username}) {
             method: 'PATCH'
           }).then(() => {
                 if (location.state.from == 'gamestart') {
-                    navigate(-2,{replace:true})
+                    let stepsToMenu = -2
+                    navigate(stepsToMenu)
                 } else {
-                    navigate(-3,{replace:true})
+                    let stepsToMenu = -3
+                    navigate(stepsToMenu)
                 }
           })
           .catch(err => console.log(err))
@@ -127,9 +134,11 @@ export default function GameBoard({data,username}) {
             method: 'PATCH'
           }).then(() => {
               if (location.state.from == 'gamestart') {
-                navigate(-2,{replace:true})
+                let stepsToMenu = -2
+                navigate(stepsToMenu)
               } else {
-                navigate(-3,{replace:true})
+                let stepsToMenu = -3
+                navigate(stepsToMenu)
               }
             })
           .catch(err => console.log(err))

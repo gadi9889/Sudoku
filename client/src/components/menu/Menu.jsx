@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import {BrowserRouter as Router,Link, useLocation} from 'react-router-dom'
+import { motion } from 'framer-motion';
 
 const mainDivVariants = {
     start: {
-        y:'70vh',
+        y:'100vh',
         transition: {
         duration:0.2,
         }
@@ -72,7 +72,7 @@ export default function Menu({username}) {
     }).then(res => res.json())
     .then(data => {
       if (data.displayBoard == undefined) {
-        setIsNewUser(true)//send to app.js
+        setIsNewUser(true)
       }
     })
     .catch(err => console.log(err))

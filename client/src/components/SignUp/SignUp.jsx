@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Message from '../message/Message';
 import FieldMoudle from './FieldMoudle';
-import './signin.css'
+import './signup.css'
 
 const firstPhaseVariants = {
     start: {
@@ -47,7 +47,6 @@ const endAnimationVariants = {
 const submitVariants = {
     start:{
         scale:1,
-        originX:1.55
     },
     end:{
         scale:1.3,
@@ -70,7 +69,7 @@ const signupMainDiv = {
     }
     },
     end: {
-        y:0,
+        y:'-7vh',
         transition: {
             duration:1,
             type:'spring',
@@ -149,20 +148,19 @@ export default function SignIn() {
 
   return (
       <>
-      <motion.div onClick={(e) => e.stopPropagation()}
+      <motion.div
         variants={signupMainDiv}
         initial='start'
         animate='end'
         exit='start'
       >
-        <motion.div id="signin-container"
+        <motion.div id="signin-container" onClick={(e) => e.stopPropagation()}
             variants={endAnimationVariants}
             animate={wasSubmitted ? 'end':'start'}
         >
             <p className="arrow up" onClick={() => {unlockScrollUp()}}/>
-                <br />
-            <button className="arrow down" onClick={() => {unlockScrollDown()}}/>
-            <motion.div style={{marginBottom:'80px'}}
+            <p className="arrow down" onClick={() => {unlockScrollDown()}}/>
+            <motion.div style={{marginBottom:'93px'}}
                 variants={firstPhaseVariants}
                 animate={scrollUpP1 ? 'end':'start'}
             >
@@ -170,7 +168,7 @@ export default function SignIn() {
                 <FieldMoudle fieldDivId={"firstname-container"} fieldP={"first name"} fieldName={"firstname"} onChange={getFName}/>
                 <FieldMoudle fieldDivId={"lastname-container"} fieldP={"last name"} fieldName={"lastname"} onChange={getLName}/>
             </motion.div>
-            <motion.div style={{marginBottom:'70px'}}
+            <motion.div style={{marginBottom:'100px'}}
                 variants={scrollUpP2 ? secondPhaseVariants:firstPhaseVariants}
                 animate={scrollUpP1 ? 'end':'start'}
             >
@@ -185,7 +183,7 @@ export default function SignIn() {
                 <FieldMoudle fieldDivId={"mail-container"} fieldP={"mail address"} fieldName={"mail"} onChange={getEmail}/>
                 <FieldMoudle fieldDivId={"password_container"} fieldP={"password"} fieldName={"password"} onChange={getPassword}/>
                 <br />
-                <motion.input type="submit" value="Sign In" style={{marginLeft:'35%'}}
+                <motion.input type="submit" value="Sign In"
                     variants={submitVariants}
                     animate={wasSubmitted ? 'end':'start'}
                     onClick={(e) =>clickHandle(e)}

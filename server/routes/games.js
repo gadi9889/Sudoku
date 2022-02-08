@@ -62,16 +62,10 @@ router.patch('/solved', (req,res) => {
         })
 })
 
-function authenticateToken(req,res,next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.status(401).send()
-
-    jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
-        if (err) return res.status(403).send
-        req.user = user
-        next()
-    })
-}
+router.get('/', (req,res) => {
+    SudokuBoard.findOne({username:req.query.username})
+        .then(board => res.json({displayBoard:board.displayBoard}))
+        .catch(err => res.status(500).send())
+})
 
 module.exports = router

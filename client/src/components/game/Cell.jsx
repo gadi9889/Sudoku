@@ -23,7 +23,6 @@ export default function Cell({cell,colStart,rowStart,isReadOnly,values,setValues
                 return setIsFilled(false)
             }
         }
-        console.log('aa')
         return setIsFilled(true)
     }
 

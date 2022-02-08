@@ -25,20 +25,12 @@ PATCH http://localhost:3001/api/games/?username=one&difficulty=2
 ###
 PATCH http://localhost:3001/api/stats/solved/hard?username=one
 ###
-POST http://localhost:3001/api/users/login
+
+POST http://localhost:4000/login
 Content-Type: application/json
 
 {
     "username":"one",
     "password":"123456"
 }
-
 ###
-POST http://localhost:3001/api/games/save
-Content-Type: application/json
-
-{
-    "username":"one",
-    "fullBoard":"[3,2,1]",
-    "displayBoard":"[3,2,1]"
-}

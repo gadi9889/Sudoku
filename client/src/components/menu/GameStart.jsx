@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import {BrowserRouter as Router,Link, useLocation, useNavigate} from 'react-router-dom'
+import { motion } from 'framer-motion';
 
 const mainDivVariants = {
     start: {
-        y:'70vh',
+        y:'100vh',
         transition: {
         duration:0.2,
         }
@@ -98,7 +98,7 @@ export default function GameStart({setSudokuBoards,username}) {
           <motion.h2
             variants={h2Variants}
           >
-            {isNewUser?"Let's get you started":"Welcome back"}
+            {isNewUser?"Let's start":"Welcome back"}
           </motion.h2>
           <div id="component-options-box">
             {!isNewUser&&(<motion.button className='component-links' onClick={() => continueHandle()}

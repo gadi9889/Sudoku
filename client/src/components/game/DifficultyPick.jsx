@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const mainDivVariants = {
   start: {
-      y:'70vh',
+      y:'100vh',
       transition: {
       duration:0.2,
       }

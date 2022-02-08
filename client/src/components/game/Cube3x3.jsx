@@ -3,6 +3,10 @@ import Cell from './Cell';
 import { motion } from 'framer-motion';
 
 export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositions,difficulty,setIsFilled}) {
+    const toRowDown = 6
+    const maxCellsInACube = 9
+    const rowLengthInCube = 3
+
     const cubeMaker = (id) => {
         let cellList = []
         let rowStart = startingRow(id)
@@ -12,14 +16,14 @@ export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositio
     }
 
     const startingRow = (id) => {
-        if (id<3) {
+        if (id<rowLengthInCube) {
             return +0
         }
         return startingRow(id/2) + 27
     }
 
     const startingCol = (id) => {
-        return (id%3)*3
+        return (id%rowLengthInCube)*3
     }
 
     const isBlanked = (cell,blankedPositions) => {
@@ -48,11 +52,11 @@ export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositio
         } else {
             cellList[cells-1] = <Cell colStart={colStart} rowStart={rowStart} cell={cells} values={displayBoard} isReadOnly={true}/>
         }
-        if (cells == 9) {
+        if (cells == maxCellsInACube) {
             return cellList
         }
-        if (cells%3 == 0) {
-            return cellSetter(colStart,rowStart+6,cells+1,cellList)
+        if (cells%rowLengthInCube == 0) {
+            return cellSetter(colStart,rowStart+toRowDown,cells+1,cellList)
         }
         return cellSetter(colStart,rowStart,cells+1,cellList)
     }
@@ -60,7 +64,7 @@ export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositio
     let cellList = cubeMaker(id)
 
     function initialPosY() {
-        if (id < 3) {
+        if (id < rowLengthInCube) {
             return -100
         } else if(id > 5) {
             return 100
@@ -76,7 +80,7 @@ export default function Cube3x3({ id,displayBoard,setDisplayBoard,blankedPositio
     }
     return (
         <>
-        <motion.div id={id} 
+        <motion.div id={id}
             whileHover={{scale:1.05}}
             initial={{y:initialPosY(),x:initialPosX(),opacity:0}}
             animate={{y:0,x:0,opacity:1}}

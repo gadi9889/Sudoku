@@ -38,7 +38,7 @@ export default function Message({showMessage,message, onClick,title}) {
                 animate='visible'
                 exit='exit'
             >
-                <h2 style={{color:'purple',marginTop:0}}>{(title == null)?'Error!':title}</h2>
+                <h2 style={{color:'rgb(168, 0, 0)',marginTop:0}}>{(title == null)?'Error!':title}</h2>
                 <h4>{message}</h4>
             </motion.div>
         </Background>
